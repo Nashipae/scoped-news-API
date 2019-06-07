@@ -50,4 +50,36 @@ public class Sql2oDepartmentDaoTest {
     public void noDeparmentsReturnsEmptyList() throws Exception {
         assertEquals(0, departmentDao.getAll().size());
     }
+
+    @Test
+    public void updateChangesDepartmentName() throws Exception {
+        String initialName = "RNIO";
+        Department department = new Department (initialName);
+        departmentDao.add(department);
+
+        departmentDao.update(department.getId(),"TSAG");
+        Department updatedDepartment = departmentDao.findById(department.getId());
+        assertNotEquals(initialName, updatedDepartment.getName());
+    }
+
+    @Test
+    public void deleteByIdDeletesCorrectDepartment() throws Exception {
+        String initialName = "RNIO";
+        Department department = new Department (initialName);
+        departmentDao.add(department);
+        departmentDao.deleteById(department.getId());
+        assertEquals(0, departmentDao.getAll().size());
+    }
+
+
+    @Test
+    public void clearAllClearsAll() throws Exception {
+        Department department = new Department("RNIO");
+        Department otherDepartment = new Department("TSAG");
+        departmentDao.add(department);
+        departmentDao.add(otherDepartment);
+        int daoSize = departmentDao.getAll().size();
+        departmentDao.clearAllDepartments();
+        assertTrue(daoSize > 0 && daoSize > departmentDao.getAll().size());
+    }
 }

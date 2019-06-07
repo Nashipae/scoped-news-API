@@ -24,7 +24,7 @@ public class Sql2oDepartmentDao implements DepartmentDao {
             int id = (int) con.createQuery(sql, true)//make a new variable
                     .bind(department)//map my argument onto the query so we can use information from it
                     .executeUpdate()//run it all
-                    .getKey(); //int id is now the row number (row “key”) of db
+                    .getKey(); //int id is now the row number
             department.setId(id);//update object to set id now from database
         } catch (Sql2oException ex) {
             System.out.println(ex); //oops we have an error!
