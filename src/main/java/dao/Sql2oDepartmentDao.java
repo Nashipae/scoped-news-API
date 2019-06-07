@@ -63,7 +63,7 @@ public class Sql2oDepartmentDao implements DepartmentDao {
 
     @Override
     public void deleteById(int id) {
-        String sql = "DELETE from tasks WHERE id=:id";
+        String sql = "DELETE from departments WHERE id=:id";
         try (Connection con = sql2o.open()) {
             con.createQuery(sql)
                     .addParameter("id", id)
