@@ -40,4 +40,15 @@ public class Sql2oDepartmentDaoTest {
         Department foundDepartment = departmentDao.findById(department.getId()); //retrieve
         assertEquals(department, foundDepartment); //should be the same
     }
+    @Test
+    public void addedDepartementsAreReturnedFromgetAll() throws Exception {
+        Department department = new Department ("RNIO");
+        departmentDao.add(department);
+        assertEquals(1, departmentDao.getAll().size());
+    }
+
+    @Test
+    public void noDeparmentsReturnsEmptyList() throws Exception {
+        assertEquals(0, departmentDao.getAll().size());
+    }
 }
