@@ -1,7 +1,8 @@
 plugins {
     id 'java'
 }
-
+applicationName = "scoped-news-api"
+mainClassName = "App"
 group 'com.nashipae'
 version '1.0-SNAPSHOT'
 
@@ -23,3 +24,5 @@ dependencies {
     compile 'org.sql2o:sql2o:1.5.4'
     compile 'com.google.code.gson:gson:2.5'
 }
+defaultTasks = ['clean']
+task stage(dependsOn: ['clean', 'installApp'])

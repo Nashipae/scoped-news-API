@@ -12,6 +12,16 @@ import static spark.Spark.*;
 public class App {
 
     public static void main(String[] args) {
+        ProcessBuilder process = new ProcessBuilder();
+        Integer port;
+        if (process.environment().get("PORT") != null) {
+            port = Integer.parseInt(process.environment().get("PORT"));
+        } else {
+            port = 4567;
+        }
+
+        setPort(port);
+
         staticFileLocation("/public");
         String connectionString = "jdbc:h2:~/todolist.db;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
         Sql2o sql2o = new Sql2o(connectionString, "", "");
@@ -40,12 +50,12 @@ public class App {
             return gson.toJson(departmentDao.getAll());//send it back to be displayed
         });
 
-        get("/departments/:id", "application/json", (req, res) -> { //accept a request in format JSON from an app
-            res.type("application/json");
-            int departmentId = Integer.parseInt(req.params("id"));
-            res.type("application/json");
-            return gson.toJson(departmentDao.findById(departmentId));
-        });
+//        get("/departments/:id", "application/json", (req, res) -> { //accept a request in format JSON from an app
+//            res.type("application/json");
+//            int departmentId = Integer.parseInt(req.params("id"));
+//            res.type("application/json");
+//            return gson.toJson(departmentDao.findById(departmentId));
+//        });
     }
 
 
