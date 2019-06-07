@@ -32,4 +32,12 @@ public class Sql2oDepartmentDaoTest {
         departmentDao.add(department);
         assertNotEquals(originalDepartmentId, department.getId());
     }
+
+    @Test
+    public void existingTasksCanBeFoundById() throws Exception {
+        Department department = new Department ("RNIO");
+        departmentDao.add(department); //add to dao (takes care of saving)
+        Department foundDepartment = departmentDao.findById(department.getId()); //retrieve
+        assertEquals(department, foundDepartment); //should be the same
+    }
 }
