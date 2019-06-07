@@ -6,6 +6,8 @@ import java.util.Objects;
 
 public class Department {
     private String name;
+    private String description;
+    private int employeesTotal;
     private LocalDateTime createdAt;
     private int id;
 //    private static ArrayList<Department> instances = new ArrayList<>();
@@ -13,6 +15,8 @@ public class Department {
 
     public Department(String name) {
         this.name = name;
+        this.description= description;
+        this.employeesTotal = employeesTotal;
 //        instances.add(this);
 //        this.id = instances.size();
         this.createdAt = LocalDateTime.now();
