@@ -28,6 +28,12 @@ public class Department {
     public void setId (int id) {this.id = id;}
     public int getId() {return id;}
 
+    public void setDescription(String description){this.description = description;}
+    public String getDescription(){return description;}
+
+    public void setEmployeesTotal(){this.employeesTotal = employeesTotal;}
+    public int getEmployeesTotal(){return employeesTotal;}
+
     public LocalDateTime getCreatedAt() {return createdAt;}
 
 

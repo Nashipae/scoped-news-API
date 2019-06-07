@@ -17,7 +17,7 @@ public class News {
         this.publishedAt = LocalDateTime.now();
     }
 
-    public LocalDateTime getCreatedAt() {return createdAt;}
+    public LocalDateTime getCreatedAt() {return publishedAt;}
     public String getGeneralContent(){return generalContent;}
 //    private String getDepartmentContent(){return departmentContent;}
     private String getDepartment(){return department;}
