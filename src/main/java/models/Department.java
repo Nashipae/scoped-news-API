@@ -11,7 +11,7 @@ public class Department {
 //    private static ArrayList<Department> instances = new ArrayList<>();
 
 
-    public Department() {
+    public Department(String name) {
         this.name = name;
 //        instances.add(this);
 //        this.id = instances.size();
