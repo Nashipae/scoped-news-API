@@ -24,4 +24,12 @@ public class Sql2oDepartmentDaoTest {
     public void tearDown() throws Exception {
         conn.close();
     }
+
+    @Test
+    public void addingCourseSetsId() throws Exception {
+        Department department = new Department ("RNIO");
+        int originalDepartmentId = department.getId();
+        departmentDao.add(department);
+        assertNotEquals(originalDepartmentId, department.getId());
+    }
 }
