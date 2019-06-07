@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="models.DepartmentTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-06-07T08:53:31" hostname="LTTECH281" time="0.042">
+  <properties/>
+  <testcase name="getCreatedAtInstantiatesWithCurrentTimeToday" classname="models.DepartmentTest" time="0.042"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
