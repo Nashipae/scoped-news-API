@@ -12,6 +12,9 @@ public interface UserDao {
     //Create a user
     void add (User user);
 
+    //List news by department
+    List<User> getAllUsersByDepartment(int departmentId);
+
     //Retrieve a single user
     User findById(int id);
 
