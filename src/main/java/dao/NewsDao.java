@@ -8,6 +8,9 @@ public interface NewsDao {
     //List all newss
     List<News> getAll();
 
+    //List news by department
+    List<News> getAllNewssByDepartment(int departmentId);
+
     //Create a news
     void add (News news);
 

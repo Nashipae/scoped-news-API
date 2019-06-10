@@ -32,25 +32,34 @@ public class Sql2oNewsDao implements NewsDao {
     }
 
     @Override
-    public List<Department> getAll() {
+    public List<News> getAll() {
         try(Connection con = sql2o.open()){
-            return con.createQuery("SELECT * FROM departments") //raw sql
-                    .executeAndFetch(Department.class); //fetch a list
+            return con.createQuery("SELECT * FROM news") //raw sql
+                    .executeAndFetch(News.class); //fetch a list
         }
     }
 
     @Override
-    public Department findById(int id) {
+    public List<News> getAllNewssByDepartment(int departmentId) {
+        try (Connection con = sql2o.open()) {
+            return con.createQuery("SELECT * FROM news WHERE departmentId = :departmentId")
+                    .addParameter("departmentId", departmentId)
+                    .executeAndFetch(News.class);
+        }
+    }
+
+    @Override
+    public News findById(int id) {
         try(Connection con = sql2o.open()){
-            return con.createQuery("SELECT * FROM departments WHERE id = :id")
+            return con.createQuery("SELECT * FROM news WHERE id = :id")
                     .addParameter("id", id) //key/value pair, key must match above
-                    .executeAndFetchFirst(Department.class); //fetch an individual item
+                    .executeAndFetchFirst(News.class); //fetch an individual item
         }
     }
 
     @Override
     public void update(int id, String newName){
-        String sql = "UPDATE departments SET name = :name WHERE id=:id";
+        String sql = "UPDATE news SET name = :name WHERE id=:id";
         try(Connection con = sql2o.open()){
             con.createQuery(sql)
                     .addParameter("name", newName)
@@ -74,8 +83,8 @@ public class Sql2oNewsDao implements NewsDao {
     }
 
     @Override
-    public void clearAllDepartments() {
-        String sql = "DELETE from departments";
+    public void clearAllNewss() {
+        String sql = "DELETE from news";
         try (Connection con = sql2o.open()) {
             con.createQuery(sql)
                     .executeUpdate();

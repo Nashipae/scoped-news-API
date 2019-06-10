@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class News {
     private int id;
-    private String generalContent;
+//    private String generalContent;
     private String departmentContent;
     private int departmentId;
     private LocalDateTime publishedAt;
@@ -13,7 +13,7 @@ public class News {
 
     public News(){
         this.id = id;
-        this.generalContent = generalContent;
+//        this.generalContent = generalContent;
         this.departmentContent = departmentContent;
         this.departmentId = departmentId;
         this.publishedAt = LocalDateTime.now();
@@ -38,13 +38,13 @@ public class News {
         this.departmentContent = departmentContent;
     }
 
-    public String getGeneralContent() {
-        return generalContent;
-    }
-
-    public void setGeneralContent(String generalContent) {
-        this.generalContent = generalContent;
-    }
+//    public String getGeneralContent() {
+//        return generalContent;
+//    }
+//
+//    public void setGeneralContent(String generalContent) {
+//        this.generalContent = generalContent;
+//    }
 
     public int getDepartmentId() {
         return departmentId;
