@@ -1,1 +1,1 @@
-web: ./build/install/scoped-news-api/bin/scoped-news-api
+web: ./build/install/scoped-news-api/bin/scoped-news-API

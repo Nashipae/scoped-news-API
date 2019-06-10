@@ -1,7 +1,8 @@
 plugins {
     id 'java'
+    id 'application'
 }
-applicationName = "scoped-news-api"
+
 mainClassName = "App"
 group 'com.nashipae'
 version '1.0-SNAPSHOT'
