@@ -1,9 +1,14 @@
 import com.google.gson.Gson;
+import dao.Sql2OUserDao;
+import dao.Sql2oNewsDao;
+import exceptions.ApiException;
 import models.Department;
 import dao.Sql2oDepartmentDao;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+
+import models.User;
 import org.sql2o.Sql2o;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -25,11 +30,19 @@ public class App {
         staticFileLocation("/public");
         String connectionString = "jdbc:h2:~/todolist.db;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
         Sql2o sql2o = new Sql2o(connectionString, "", "");
-        Sql2oDepartmentDao departmentDao = new Sql2oDepartmentDao(sql2o);
+//
+
+        Sql2OUserDao userDao;
+        Sql2oDepartmentDao departmentDao;
+        Sql2oNewsDao newsDao;
         Gson gson = new Gson();
 
+       departmentDao = new Sql2oDepartmentDao(sql2o);
+       userDao = new Sql2OUserDao(sql2o);
+       newsDao = new Sql2oNewsDao(sql2o);
 
-        //get: show all departments
+
+//        get: show all departments
 //        get("/", (req, res) -> {
 //            Map<String, Object> model = new HashMap<>();
 //            List<Department> departments = departmentDao.getAll();
@@ -50,13 +63,33 @@ public class App {
             return gson.toJson(departmentDao.getAll());//send it back to be displayed
         });
 
-//        get("/departments/:id", "application/json", (req, res) -> { //accept a request in format JSON from an app
-//            res.type("application/json");
-//            int departmentId = Integer.parseInt(req.params("id"));
-//            res.type("application/json");
-//            return gson.toJson(departmentDao.findById(departmentId));
-//        });
+        get("/departments/:id", "application/json", (req, res) -> { //accept a request in format JSON from an app
+            res.type("application/json");
+            int departmentId = Integer.parseInt(req.params("id"));
+            res.type("application/json");
+            return gson.toJson(departmentDao.findById(departmentId));
+        });
+
+        post("/departments/:departmentId/user/:userId", "application/json", (req, res) -> {
+
+            int departmentId = Integer.parseInt(req.params("departmentId"));
+            int userId = Integer.parseInt(req.params("userId"));
+            Department department = departmentDao.findById(departmentId);
+            User user = userDao.findById(userId);
+
+
+            if (department != null && user != null){
+                //both exist and can be associated
+                userDao.addUserToDepartment(user, department);
+                res.status(201);
+                return gson.toJson(String.format("Department '%s' and User '%s' have been associated",user.getStaffName(), department.getName()));
+            }
+            else {
+                throw new ApiException(404, String.format("Department or User does not exist"));
+            }
+        });
+
+
+
     }
-
-
 }

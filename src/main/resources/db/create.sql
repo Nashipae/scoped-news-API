@@ -23,8 +23,8 @@ CREATE TABLE IF NOT EXISTS news (
 
 
 );
-CREATE TABLE IF NOT EXISTS departmentStaff (
-    staffId INTEGER,
+CREATE TABLE IF NOT EXISTS department_users (
+    userId INTEGER,
     departmentId INTEGER,
 
 );

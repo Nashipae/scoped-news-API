@@ -1,5 +1,6 @@
 package dao;
 
+import models.Department;
 import models.User;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -43,6 +44,19 @@ public class Sql2OUserDao implements UserDao {
             return con.createQuery("SELECT * FROM users WHERE departmentId = :departmentId")
                     .addParameter("departmentId", departmentId)
                     .executeAndFetch(User.class);
+        }
+    }
+
+    @Override
+    public void addUserToDepartment(User user, Department department){
+        String sql = "INSERT INTO department_users (departmentId, userId) VALUES (:departmentId, :userId)";
+        try (Connection con = sql2o.open()) {
+            con.createQuery(sql)
+                    .addParameter("departmentId", department.getId())
+                    .addParameter("userId", user.getId())
+                    .executeUpdate();
+        } catch (Sql2oException ex){
+            System.out.println(ex);
         }
     }
 
