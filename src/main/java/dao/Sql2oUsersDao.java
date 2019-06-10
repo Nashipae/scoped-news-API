@@ -1,6 +1,6 @@
 package dao;
 
-import models.News;
+import models.Users;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
@@ -9,20 +9,20 @@ import java.util.List;
 
 import static org.postgresql.jdbc2.EscapedFunctions.INSERT;
 
-public class Sql2oNewsDao implements NewsDao {
+public class Sql2oUsersDao implements UsersDao {
 
     private final Sql2o sql2o;
 
-    public Sql2oNewsDao(Sql2o sql2o){
+    public Sql2oUsersDao(Sql2o sql2o){
         this.sql2o = sql2o; //making the sql2o object available everywhere so we can call methods in it
     }
 
     @Override
-    public void add(News news) {
-        String sql = "INSERT INTO news (content, departmentId, publishedAt) VALUES (:content, :departmentId, :publishedAt)";//raw sql
+    public void add() {
+        String sql = "INSERT INTO users (id, staffName, staffRole, staffPosition, departmentId) VALUES (:id, staffName, staffRole, staffPosition, departmentId)";//raw sql
         try (Connection con = sql2o.open()) {//try to open a connection
             int id = (int) con.createQuery(sql, true)//make a new variable
-                    .bind(news)//map my argument onto the query so we can use information from it
+                    .bind(users)//map my argument onto the query so we can use information from it
                     .executeUpdate()//run it all
                     .getKey(); //int id is now the row number
             news.setId(id);//update object to set id now from database

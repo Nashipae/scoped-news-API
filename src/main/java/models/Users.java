@@ -7,7 +7,7 @@ public class Users {
     private String staffName;
     private String staffPosition;
     private String staffRole;
-    private String department;
+    private String departmentId;
 
     public void setId (int id) {this.id = id;}
     public int getId() {return id;}
@@ -15,8 +15,8 @@ public class Users {
     public void setStaffName(){this.staffName = staffName;}
     public String getStaffName(){return staffName;}
 
-    public void setDepartment(){this.department = department;}
-    public String getDepartment(){return department;}
+    public void setDepartment(){this.departmentId = departmentId;}
+    public String getDepartment(){return departmentId;}
 
     public void setStaffPosition(){this.staffPosition = staffPosition;}
     public String getStaffPosition(){return staffPosition;}
@@ -34,12 +34,12 @@ public class Users {
                 staffName.equals(users.staffName) &&
                 Objects.equals(staffPosition, users.staffPosition) &&
                 Objects.equals(staffRole, users.staffRole) &&
-                department.equals(users.department);
+                departmentId.equals(users.departmentId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, staffName, staffPosition, staffRole, department);
+        return Objects.hash(id, staffName, staffPosition, staffRole, departmentId);
     }
 }
 

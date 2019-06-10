@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS users (
 );
 CREATE TABLE IF NOT EXISTS news (
     id int PRIMARY KEY auto_increment,
-    generalContent  VARCHAR,
+    content  VARCHAR,
     departmentContent VARCHAR,
     departmentId INTEGER,
 

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class News {
     private int id;
 //    private String generalContent;
-    private String departmentContent;
+    private String content;
     private int departmentId;
     private LocalDateTime publishedAt;
 //    private static ArrayList<News> instances = new ArrayList<>();
@@ -14,7 +14,7 @@ public class News {
     public News(){
         this.id = id;
 //        this.generalContent = generalContent;
-        this.departmentContent = departmentContent;
+        this.content = content;
         this.departmentId = departmentId;
         this.publishedAt = LocalDateTime.now();
     }
@@ -30,12 +30,12 @@ public class News {
     public void setId (int id) {this.id = id;}
     public int getId() {return id;}
 
-    public String getDepartmentContent() {
-        return departmentContent;
+    public String getContent() {
+        return content;
     }
 
-    public void setDepartmentContent(String departmentContent) {
-        this.departmentContent = departmentContent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
 //    public String getGeneralContent() {
