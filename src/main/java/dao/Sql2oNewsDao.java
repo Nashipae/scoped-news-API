@@ -72,7 +72,7 @@ public class Sql2oNewsDao implements NewsDao {
 
     @Override
     public void deleteById(int id) {
-        String sql = "DELETE from departments WHERE id=:id";
+        String sql = "DELETE from news WHERE id=:id";
         try (Connection con = sql2o.open()) {
             con.createQuery(sql)
                     .addParameter("id", id)

@@ -1,19 +1,19 @@
 package dao;
 
-import models.Users;
+import models.User;
 
 import java.util.List;
 
-public interface UsersDao {
+public interface UserDao {
 
     //List all users
-    List<Users> getAll();
+    List<User> getAll();
 
     //Create a user
-    void add (Users users);
+    void add (User user);
 
     //Retrieve a single user
-    Users findById(int id);
+    User findById(int id);
 
     // UPDATE
     void update(int id, String name);

@@ -1,68 +1,66 @@
 package dao;
 
-import models.Users;
+import models.User;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
 
 import java.util.List;
 
-import static org.postgresql.jdbc2.EscapedFunctions.INSERT;
-
-public class Sql2oUsersDao implements UsersDao {
+public class Sql2OUserDao implements UserDao {
 
     private final Sql2o sql2o;
 
-    public Sql2oUsersDao(Sql2o sql2o){
+    public Sql2OUserDao(Sql2o sql2o){
         this.sql2o = sql2o; //making the sql2o object available everywhere so we can call methods in it
     }
 
     @Override
-    public void add() {
+    public void add(User user) {
         String sql = "INSERT INTO users (id, staffName, staffRole, staffPosition, departmentId) VALUES (:id, staffName, staffRole, staffPosition, departmentId)";//raw sql
         try (Connection con = sql2o.open()) {//try to open a connection
             int id = (int) con.createQuery(sql, true)//make a new variable
-                    .bind(users)//map my argument onto the query so we can use information from it
+                    .bind(user)//map my argument onto the query so we can use information from it
                     .executeUpdate()//run it all
                     .getKey(); //int id is now the row number
-            news.setId(id);//update object to set id now from database
+            user.setId(id);//update object to set id now from database
         } catch (Sql2oException ex) {
             System.out.println(ex); //oops we have an error!
         }
     }
 
     @Override
-    public List<News> getAll() {
+    public List<User> getAll() {
         try(Connection con = sql2o.open()){
-            return con.createQuery("SELECT * FROM news") //raw sql
-                    .executeAndFetch(News.class); //fetch a list
+            return con.createQuery("SELECT * FROM users") //raw sql
+                    .executeAndFetch(User.class); //fetch a list
         }
     }
+//
+//    @Override
+//    public List<Users> getAllUsersByDepartment(int departmentId) {
+//        try (Connection con = sql2o.open()) {
+//            return con.createQuery("SELECT * FROM users WHERE departmentId = :departmentId")
+//                    .addParameter("departmentId", departmentId)
+//                    .executeAndFetch(Users.class);
+//        }
+//    }
 
     @Override
-    public List<News> getAllNewssByDepartment(int departmentId) {
-        try (Connection con = sql2o.open()) {
-            return con.createQuery("SELECT * FROM news WHERE departmentId = :departmentId")
-                    .addParameter("departmentId", departmentId)
-                    .executeAndFetch(News.class);
-        }
-    }
-
-    @Override
-    public News findById(int id) {
+    public User findById(int id) {
         try(Connection con = sql2o.open()){
-            return con.createQuery("SELECT * FROM news WHERE id = :id")
+            return con.createQuery("SELECT * FROM users WHERE id = :id")
                     .addParameter("id", id) //key/value pair, key must match above
-                    .executeAndFetchFirst(News.class); //fetch an individual item
+                    .executeAndFetchFirst(User.class); //fetch an individual item
         }
     }
 
     @Override
-    public void update(int id, String newName){
-        String sql = "UPDATE news SET name = :name WHERE id=:id";
+    public void update(int id, String staffName){
+        String sql = "UPDATE users SET name = :name WHERE id=:id";
         try(Connection con = sql2o.open()){
             con.createQuery(sql)
-                    .addParameter("name", newName)
+                    .addParameter("staffName", staffName)
                     .addParameter("id", id)
                     .executeUpdate();
         } catch (Sql2oException ex) {
@@ -72,7 +70,7 @@ public class Sql2oUsersDao implements UsersDao {
 
     @Override
     public void deleteById(int id) {
-        String sql = "DELETE from departments WHERE id=:id";
+        String sql = "DELETE from users WHERE id=:id";
         try (Connection con = sql2o.open()) {
             con.createQuery(sql)
                     .addParameter("id", id)
@@ -83,8 +81,8 @@ public class Sql2oUsersDao implements UsersDao {
     }
 
     @Override
-    public void clearAllNewss() {
-        String sql = "DELETE from news";
+    public void clearAllUsers() {
+        String sql = "DELETE from users";
         try (Connection con = sql2o.open()) {
             con.createQuery(sql)
                     .executeUpdate();
