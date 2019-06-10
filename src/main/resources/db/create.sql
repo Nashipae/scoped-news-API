@@ -9,11 +9,20 @@ CREATE TABLE IF NOT EXISTS departments (
 );
 CREATE TABLE IF NOT EXISTS users (
     id int PRIMARY KEY auto_increment,
-    staff_name  VARCHAR,
-    staff_role VARCHAR,
-    staff_position INTEGER,
+    staffName  VARCHAR,
+    staffRole VARCHAR,
+    staffPosition INTEGER,
     department VARCHAR,
 
 );
+CREATE TABLE IF NOT EXISTS news (
+    id int PRIMARY KEY auto_increment,
+    generalContent  VARCHAR,
+    departmentContent VARCHAR,
+    departmentId INTEGER,
+
+
+);
+
 
 
