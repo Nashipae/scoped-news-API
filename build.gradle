@@ -3,7 +3,9 @@ plugins {
     id 'application'
 }
 
-mainClassName = "App"
+mainClassName = 'App'
+archivesBaseName = "scoped-news-api"
+applicationName = "scoped-news-api"
 group 'com.nashipae'
 version '1.0-SNAPSHOT'
 

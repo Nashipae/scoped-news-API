@@ -159,6 +159,7 @@ public class App {
         //get all news
         get("/news/","application/json", (request, response) -> gson.toJson(newsDao.getAll()));
 
+
         post("/departments/:departmentId/news/new", "application/json", (req, res) -> {
             int departmentId = Integer.parseInt(req.params("departmentId"));
             News news = gson.fromJson(req.body(), News.class);
