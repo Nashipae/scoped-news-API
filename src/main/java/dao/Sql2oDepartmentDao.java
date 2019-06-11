@@ -1,10 +1,12 @@
 package dao;
 
+import models.User;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import models.Department;
 import org.sql2o.Sql2oException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.postgresql.jdbc2.EscapedFunctions.INSERT;
@@ -46,6 +48,29 @@ public class Sql2oDepartmentDao implements DepartmentDao {
                     .addParameter("id", id) //key/value pair, key must match above
                     .executeAndFetchFirst(Department.class); //fetch an individual item
         }
+    }
+
+    @Override
+    public List<User> getAllUsersByDepartment(int departmentId) {
+        ArrayList<User> users = new ArrayList<>();
+
+        String joinQuery = "SELECT user FROM departmentUsers WHERE departmentid = :departmentId";
+
+        try (Connection con = sql2o.open()) {
+            List<Integer> allUsersIds = con.createQuery(joinQuery)
+                    .addParameter("departmentId", departmentId)
+                    .executeAndFetch(Integer.class);
+            for (Integer userId : allUsersIds){
+                String userQuery = "SELECT * FROM users WHERE id = :userId";
+                users.add(
+                        con.createQuery(userQuery)
+                                .addParameter("userId", userId)
+                                .executeAndFetchFirst(User.class));
+            }
+        } catch (Sql2oException ex){
+            System.out.println(ex);
+        }
+        return users;
     }
 
     @Override

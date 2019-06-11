@@ -7,14 +7,15 @@ import java.util.List;
 
 public interface UserDao {
 
-    //List all users
-    List<User> getAll();
 
     //Create a user
     void add (User user);
 
-    //List news by department
-    List<User> getAllUsersByDepartment(int departmentId);
+    //List all users
+    List<User> getAll();
+
+    //List users by department
+    List<Department> getAllUsersForADepartment(int id);
 
     //Add user to department
     void addUserToDepartment(User user, Department department);

@@ -9,6 +9,12 @@ public class User {
     private String staffRole;
     private String departmentId;
 
+    public User(){}
+
+    public User(String staffName) {
+        this.staffName = staffName;
+    }
+
     public void setId (int id) {this.id = id;}
     public int getId() {return id;}
 

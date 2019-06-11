@@ -6,6 +6,7 @@ import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Sql2OUserDao implements UserDao {
@@ -33,23 +34,47 @@ public class Sql2OUserDao implements UserDao {
     @Override
     public List<User> getAll() {
         try(Connection con = sql2o.open()){
-            return con.createQuery("SELECT * FROM users") //raw sql
+            return con.createQuery("SELECT * FROM users")
                     .executeAndFetch(User.class); //fetch a list
         }
     }
 
+//    @Override
+//    public List<User> getAllUsersByDepartment(int departmentId) {
+//        try (Connection con = sql2o.open()) {
+//            return con.createQuery("SELECT * FROM users WHERE departmentId = :departmentId")
+//                    .addParameter("departmentId", departmentId)
+//                    .executeAndFetch(User.class);
+//        }
+//    }
+
     @Override
-    public List<User> getAllUsersByDepartment(int departmentId) {
+    public List<Department> getAllUsersForADepartment(int userId) {
+
+        ArrayList<Department> departments = new ArrayList<>();
+
+        String joinQuery = "SELECT deparmentid FROM departmentUsers WHERE userid = :userId";
+
         try (Connection con = sql2o.open()) {
-            return con.createQuery("SELECT * FROM users WHERE departmentId = :departmentId")
-                    .addParameter("departmentId", departmentId)
-                    .executeAndFetch(User.class);
+            List<Integer> allDepartmentIds = con.createQuery(joinQuery)
+                    .addParameter("userId", userId)
+                    .executeAndFetch(Integer.class);
+            for (Integer departmentId : allDepartmentIds){
+                String departmentQuery = "SELECT * FROM departments WHERE id = :departmentId";
+                departments.add(
+                        con.createQuery(departmentQuery)
+                                .addParameter("departmentId", departmentId)
+                                .executeAndFetchFirst(Department.class));
+            }
+        } catch (Sql2oException ex){
+            System.out.println(ex);
         }
+        return departments;
     }
 
     @Override
     public void addUserToDepartment(User user, Department department){
-        String sql = "INSERT INTO department_users (departmentId, userId) VALUES (:departmentId, :userId)";
+        String sql = "INSERT INTO departmentUsers (departmentId, userId) VALUES (:departmentId, :userId)";
         try (Connection con = sql2o.open()) {
             con.createQuery(sql)
                     .addParameter("departmentId", department.getId())

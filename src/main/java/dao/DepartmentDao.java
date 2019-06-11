@@ -1,6 +1,8 @@
 package dao;
 
 import models.Department;
+import models.User;
+
 import java.util.List;
 
 public interface DepartmentDao {
@@ -13,6 +15,8 @@ public interface DepartmentDao {
 
     //Retrieve a single department
     Department findById(int id);
+
+    List<User> getAllUsersByDepartment(int departmentId);
 
     // UPDATE
      void update(int id, String name);
