@@ -18,18 +18,19 @@ public class Sql2OUserDao implements UserDao {
     }
 
     @Override
-    public void add(User user) {
-        String sql = "INSERT INTO users (id, staffName, staffRole, staffPosition, departmentId) VALUES (:id, staffName, staffRole, staffPosition, departmentId)";//raw sql
-        try (Connection con = sql2o.open()) {//try to open a connection
-            int id = (int) con.createQuery(sql, true)//make a new variable
-                    .bind(user)//map my argument onto the query so we can use information from it
-                    .executeUpdate()//run it all
-                    .getKey(); //int id is now the row number
-            user.setId(id);//update object to set id now from database
+    public void add(User user){
+        String sql = "INSERT INTO users (id, staffName, staffRole, staffPosition, departmentId) VALUES (:id, :staffName, :staffRole, :staffPosition, :departmentId);";
+        try(Connection conn = sql2o.open()){
+            int id = (int) conn.createQuery(sql, true)
+                    .bind(user)
+                    .executeUpdate()
+                    .getKey();
+            user.setId(id);
         } catch (Sql2oException ex) {
             System.out.println(ex); //oops we have an error!
         }
     }
+
 
     @Override
     public List<User> getAll() {
@@ -53,7 +54,7 @@ public class Sql2OUserDao implements UserDao {
 
         ArrayList<Department> departments = new ArrayList<>();
 
-        String joinQuery = "SELECT deparmentid FROM departmentUsers WHERE userid = :userId";
+        String joinQuery = "SELECT departmentid FROM departmentUsers WHERE userid = :userId";
 
         try (Connection con = sql2o.open()) {
             List<Integer> allDepartmentIds = con.createQuery(joinQuery)
@@ -88,7 +89,7 @@ public class Sql2OUserDao implements UserDao {
     @Override
     public User findById(int id) {
         try(Connection con = sql2o.open()){
-            return con.createQuery("SELECT * FROM users WHERE id = :id")
+            return con.createQuery("SELECT * FROM user WHERE id = :id")
                     .addParameter("id", id) //key/value pair, key must match above
                     .executeAndFetchFirst(User.class); //fetch an individual item
         }
@@ -96,7 +97,7 @@ public class Sql2OUserDao implements UserDao {
 
     @Override
     public void update(int id, String staffName){
-        String sql = "UPDATE users SET name = :name WHERE id=:id";
+        String sql = "UPDATE users SET staffName = :name WHERE id=:id";
         try(Connection con = sql2o.open()){
             con.createQuery(sql)
                     .addParameter("staffName", staffName)

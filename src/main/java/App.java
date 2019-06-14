@@ -43,13 +43,13 @@ public class App {
        newsDao = new Sql2oNewsDao(sql2o);
 
 
-//        get: show all departments
-//        get("/", (req, res) -> {
-//            Map<String, Object> model = new HashMap<>();
+        //get: show all departments
+        get("/", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
 //            List<Department> departments = departmentDao.getAll();
 //            model.put("departments", departments);
-//            return new ModelAndView(model, "index.hbs");
-//        }, new HandlebarsTemplateEngine());
+            return new ModelAndView(model, "index.hbs");
+        }, new HandlebarsTemplateEngine());
 
 
         //add a department
@@ -72,6 +72,8 @@ public class App {
 //            int departmentId = Integer.parseInt(request.params("id"));
 //            return gson.toJson(departmentDao.findById(departmentId));
 //        });
+
+
 
         get("/departments/:id", "application/json", (req, res) -> { //accept a request in format JSON from an app
             res.type("application/json");
@@ -101,12 +103,16 @@ public class App {
         post("departments/:id/users/new","application/json", (request, response) -> {
             int departmentId = Integer.parseInt(request.params("id"));
             User newUser = gson.fromJson(request.body(), User.class);
-            newUser.setDepartment();
+            newUser.setDepartment(departmentId);
             userDao.add(newUser);
             response.status(201);
             return gson.toJson(newUser);
         });
 
+        get("/departments/:id/users","application/json", (request, response) -> {
+            int departmentId = Integer.parseInt(request.params("id"));
+            return gson.toJson(userDao.getAllUsersForADepartment(departmentId));
+        });
 
 
         // add a new user
@@ -114,13 +120,18 @@ public class App {
             User user = gson.fromJson(req.body(), User.class);
             userDao.add(user);
             res.status(201);
+            res.type("application/json");
             return gson.toJson(user);
         });
 
         //show a list of all users
-//        get("/users/", "application/json", (req, res) -> {
-//            return gson.toJson(userDao.getAll());
-//        });
+        get("/users", "application/json", (req, res) -> {
+            if(userDao.getAll().size()>0){
+                return gson.toJson(userDao.getAll());
+            }else{
+                return "{\"message\":\"Sorry, there are no users listed for now.\"}";
+            }
+        });
 
         post("/departments/:departmentId/user/:userId", "application/json", (req, res) -> {
             int departmentId = Integer.parseInt(req.params("departmentId"));
@@ -156,19 +167,46 @@ public class App {
 
 
 
-        //get all news
-        get("/news/","application/json", (request, response) -> gson.toJson(newsDao.getAll()));
-
-
         post("/departments/:departmentId/news/new", "application/json", (req, res) -> {
             int departmentId = Integer.parseInt(req.params("departmentId"));
             News news = gson.fromJson(req.body(), News.class);
-            news.setDepartmentId(departmentId); //we need to set this separately because it comes from our route, not our JSON input.
+            news.setDepartmentId(departmentId);
             newsDao.add(news);
             res.status(201);
             return gson.toJson(news);
         });
-//
+
+        //get all news
+        get("/generalnews","application/json", (request, response) -> gson.toJson(newsDao.getAll()));
+
+        post("/generalnews/new","application/json", (request, response) -> {
+            News news=gson.fromJson(request.body(), News.class);
+            newsDao.add(news);
+            response.status(201);
+            return  gson.toJson(news);
+        });
+
+        //get departmental news
+        get("/departments/:id/news","application/json", (request, response) -> {
+            int departmentId = Integer.parseInt(request.params("id"));
+            return gson.toJson(newsDao.getAllNewssByDepartment(departmentId));
+        });
+
+        get("/news/:id","application/json", (request, response) -> {
+            int newsId = Integer.parseInt(request.params("id"));
+            return gson.toJson(newsDao.findById(newsId));
+        });
+
+        post("/departments/:id/news/new","application/json", (request, response) -> {
+            int departmentId = Integer.parseInt(request.params("id"));
+            String content = request.params("content");
+            News newNews = gson.fromJson(request.body(), News.class);
+            newNews.setDepartmentId(departmentId);
+            newsDao.add(newNews);
+            response.status(201);
+            return gson.toJson(newNews);
+        });
+
         exception(ApiException.class, (exception, req, res) -> {
             ApiException err = (ApiException) exception;
             Map<String, Object> jsonMap = new HashMap<>();
@@ -181,6 +219,7 @@ public class App {
 //
 
     }
+
 }
 
 

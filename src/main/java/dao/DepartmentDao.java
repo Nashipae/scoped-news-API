@@ -18,6 +18,8 @@ public interface DepartmentDao {
 
     List<User> getAllUsersByDepartment(int departmentId);
 
+    void updateEmployeeCount(int departmentid, int employeecount);
+
     // UPDATE
      void update(int id, String name);
 

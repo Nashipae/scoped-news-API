@@ -8,7 +8,7 @@ public class News {
 //    private String generalContent;
     private String content;
     private int departmentId;
-    private LocalDateTime publishedAt;
+//    private LocalDateTime publishedAt;
 //    private static ArrayList<News> instances = new ArrayList<>();
 
     public News(){
@@ -16,7 +16,7 @@ public class News {
 //        this.generalContent = generalContent;
         this.content = content;
         this.departmentId = departmentId;
-        this.publishedAt = LocalDateTime.now();
+//        this.publishedAt = LocalDateTime.now();
     }
 
 //    public LocalDateTime getCreatedAt() {return publishedAt;}
@@ -54,11 +54,11 @@ public class News {
         this.departmentId = departmentId;
     }
 
-    public LocalDateTime getPublishedAt() {
-        return publishedAt;
-    }
+//    public LocalDateTime getPublishedAt() {
+//        return publishedAt;
+//    }
 
-    public void setPublishedAt(LocalDateTime publishedAt) {
-        this.publishedAt = publishedAt;
-    }
+//    public void setPublishedAt(LocalDateTime publishedAt) {
+//        this.publishedAt = publishedAt;
+//    }
 }

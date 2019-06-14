@@ -110,5 +110,17 @@ public class Sql2oDepartmentDao implements DepartmentDao {
     }
 
 
+    @Override
+    public void updateEmployeeCount(int id, int employeeCount){
+
+        String sql="UPDATE departments SET employeeCount = :employeeCount WHERE id=:id;";
+
+        try(Connection con=sql2o.open()){
+            con.createQuery(sql)
+                    .addParameter("id",id)
+                    .addParameter("employeeCount",employeeCount)
+                    .executeUpdate();
+        }
+    }
 
 }
