@@ -1,5 +1,5 @@
-CREATE DATABASE scoped_news_api;
-
+-- CREATE DATABASE scoped_news_api;
+SET MODE PostgreSQL;
 
 CREATE TABLE IF NOT EXISTS departments (
   id int PRIMARY KEY auto_increment,
@@ -33,4 +33,4 @@ CREATE TABLE IF NOT EXISTS departmentUsers (
 );
 
 
-CREATE DATABASE scoped_news_api_test WITH TEMPLATE scoped_news_api;
+-- CREATE DATABASE scoped_news_api_test WITH TEMPLATE scoped_news_api;

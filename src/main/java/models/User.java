@@ -20,8 +20,6 @@ public class User {
         this.staffName = staffName;
         this.staffPosition= staffPosition;
         this.staffRole = staffRole;
-
-
     }
 
     public void setId (int id) {this.id = id;}
@@ -30,8 +28,8 @@ public class User {
     public void setStaffName(){this.staffName = staffName;}
     public String getStaffName(){return staffName;}
 
-    public void setDepartment(int departmentId){this.departmentId = this.departmentId;}
-    public int getDepartment(){return departmentId;}
+    public void setDepartmentId(int departmentId){this.departmentId = this.departmentId;}
+    public int getDepartmentId(){return departmentId;}
 
     public void setStaffPosition(){this.staffPosition = staffPosition;}
     public String getStaffPosition(){return staffPosition;}
@@ -54,7 +52,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getStaffName(), getStaffPosition(), getStaffRole(), departmentId);
+        return Objects.hash(getId(), getStaffName(), getStaffPosition(), getStaffRole(), getDepartmentId());
     }
 }
 

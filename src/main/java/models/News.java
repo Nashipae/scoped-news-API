@@ -19,12 +19,6 @@ public class News {
 //        this.publishedAt = LocalDateTime.now();
     }
 
-//    public LocalDateTime getCreatedAt() {return publishedAt;}
-//    public String getGeneralContent(){return generalContent;}
-//    private String getDepartmentContent(){return departmentContent;}
-//    private int getDepartment(){return departmentId;}
-//    private int getId(){return id;}
-//    public static ArrayList<News> getAll(){return instances;}
 
 
     public void setId (int id) {this.id = id;}

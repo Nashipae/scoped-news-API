@@ -9,8 +9,6 @@ import org.sql2o.Sql2oException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.postgresql.jdbc2.EscapedFunctions.INSERT;
-
 public class Sql2oDepartmentDao implements DepartmentDao {
 
     private final Sql2o sql2o;
@@ -21,40 +19,54 @@ public class Sql2oDepartmentDao implements DepartmentDao {
 
     @Override
     public void add(Department department) {
-        String sql = "INSERT INTO departments (name) VALUES (:name)";//raw sql
-        try (Connection con = sql2o.open()) {//try to open a connection
+        String sql = "INSERT INTO departments (name, description) VALUES (:name, :description)";//raw sql
+        try (Connection con = DB.sql2o.open()) {//try to open a connection
             int id = (int) con.createQuery(sql, true)//make a new variable
                     .bind(department)//map my argument onto the query so we can use information from it
                     .executeUpdate()//run it all
                     .getKey(); //int id is now the row number
             department.setId(id);//update object to set id now from database
         } catch (Sql2oException ex) {
-            System.out.println(ex); //oops we have an error!
+            System.out.println(ex);
         }
     }
 
     @Override
+    public void addDepartmentToUser(Department department, User user){
+        String sql = "INSERT INTO departmentUsers (departmentid, usersid) VALUES (:departmentId, :userId)";
+        try (Connection con = DB.sql2o.open()) {
+            con.createQuery(sql)
+                    .addParameter("departmentId", department.getId())
+                    .addParameter("userId", user.getId())
+                    .executeUpdate();
+        } catch (Sql2oException ex){
+            System.out.println(ex);
+        }
+    }
+
+
+    @Override
     public List<Department> getAll() {
-        try(Connection con = sql2o.open()){
+        try(Connection con = DB.sql2o.open()){
             return con.createQuery("SELECT * FROM departments") //raw sql
                     .executeAndFetch(Department.class); //fetch a list
         }
     }
 
     @Override
-    public Department findById(int id) {
-        try(Connection con = sql2o.open()){
-            return con.createQuery("SELECT * FROM departments WHERE id = :id")
-                    .addParameter("id", id) //key/value pair, key must match above
-                    .executeAndFetchFirst(Department.class); //fetch an individual item
+    public Department findById(int id){
+        String sql = "SELECT * FROM departments WHERE id = :id;";
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery(sql)
+                    .addParameter("id", id)
+                    .executeAndFetchFirst(Department.class);
         }
     }
-
     @Override
     public List<User> getAllUsersByDepartment(int departmentId) {
-        ArrayList<User> users = new ArrayList<>();
+        List<User> users = new ArrayList<>();
 
-        String joinQuery = "SELECT user FROM departmentUsers WHERE departmentid = :departmentId";
+        String joinQuery = "SELECT userid FROM departmentUsers WHERE departmentid = :departmentId";
 
         try (Connection con = sql2o.open()) {
             List<Integer> allUsersIds = con.createQuery(joinQuery)
@@ -74,11 +86,12 @@ public class Sql2oDepartmentDao implements DepartmentDao {
     }
 
     @Override
-    public void update(int id, String newName){
-        String sql = "UPDATE departments SET name = :name WHERE id=:id";
-        try(Connection con = sql2o.open()){
-            con.createQuery(sql)
-                    .addParameter("name", newName)
+    public void update(int id, String name, String description){
+        String sql = "UPDATE departments SET name = :name, description = :description WHERE id = :id;";
+        try(Connection conn = sql2o.open()){
+            conn.createQuery(sql)
+                    .addParameter("description", description)
+                    .addParameter("name", name)
                     .addParameter("id", id)
                     .executeUpdate();
         } catch (Sql2oException ex) {

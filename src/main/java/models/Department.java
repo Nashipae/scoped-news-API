@@ -8,7 +8,6 @@ public class Department {
     private String name;
     private String description;
     private int employeeCount;
-    private LocalDateTime createdAt;
     private int id;
 //    private static ArrayList<Department> instances = new ArrayList<>();
 
@@ -22,7 +21,12 @@ public class Department {
     public Department(String name, String description) {
         this.name = name;
         this.description= description;
-        this.createdAt = LocalDateTime.now();
+//        this.createdAt = LocalDateTime.now();
+    }
+    public Department(String name, String description,int employeeCount) {
+        this.name = name;
+        this.description= description;
+        this.employeeCount=employeeCount;
     }
 
 
@@ -43,36 +47,27 @@ public class Department {
         this.employeeCount = employeeCount;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
     //    public static ArrayList<Department> getAll(){return instances;}
 //    public static Department findById(int id){return instances.get(id-1);}
 ////    public void update(String content) {this.name = content;}
 //    public void deleteDepartment(){instances.remove(id-1);}
-//    public static void clearAllDeparments(){instances.clear();}
+//    public static void clearAllDepartments(){instances.clear();}
 
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Department)) return false;
         Department that = (Department) o;
-        return employeeCount == that.employeeCount &&
-                id == that.id &&
-                name.equals(that.name) &&
-                description.equals(that.description) &&
-                createdAt.equals(that.createdAt);
+        return getEmployeeCount() == that.getEmployeeCount() &&
+                getId() == that.getId() &&
+                Objects.equals(getName(), that.getName()) &&
+                Objects.equals(getDescription(), that.getDescription());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, employeeCount, createdAt, id);
+        return Objects.hash(getName(), getDescription(), getEmployeeCount(), getId());
     }
 }
 

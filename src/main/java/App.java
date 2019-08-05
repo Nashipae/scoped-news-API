@@ -1,10 +1,11 @@
 import com.google.gson.Gson;
-import dao.Sql2OUserDao;
+import dao.DB;
+import dao.Sql2oUserDao;
 import dao.Sql2oNewsDao;
 import exceptions.ApiException;
 import models.Department;
 import dao.Sql2oDepartmentDao;
-import java.util.List;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,31 +24,29 @@ public class App {
         if (process.environment().get("PORT") != null) {
             port = Integer.parseInt(process.environment().get("PORT"));
         } else {
-            port = 4567;
+            port = 4563;
         }
 
         setPort(port);
 
         staticFileLocation("/public");
-        String connectionString = "jdbc:h2:~/todolist.db;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
+        String connectionString = "jdbc:h2:~/scoped_news_api.db;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
         Sql2o sql2o = new Sql2o(connectionString, "", "");
 
 
-        Sql2OUserDao userDao;
+        Sql2oUserDao userDao;
         Sql2oDepartmentDao departmentDao;
         Sql2oNewsDao newsDao;
         Gson gson = new Gson();
 
-       departmentDao = new Sql2oDepartmentDao(sql2o);
-       userDao = new Sql2OUserDao(sql2o);
-       newsDao = new Sql2oNewsDao(sql2o);
+       departmentDao = new Sql2oDepartmentDao(DB.sql2o);
+       userDao = new Sql2oUserDao(DB.sql2o);
+       newsDao = new Sql2oNewsDao(DB.sql2o);
 
 
         //get: show all departments
         get("/", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
-//            List<Department> departments = departmentDao.getAll();
-//            model.put("departments", departments);
             return new ModelAndView(model, "index.hbs");
         }, new HandlebarsTemplateEngine());
 
@@ -62,17 +61,16 @@ public class App {
         });
 
         //list all departments
-        get("/departments/", "application/json", (req, res) -> { //accept a request in format JSON from an app
-//            res.type("application/json");
+        get("/departments", "application/json", (req, res) -> { //accept a request in format JSON from an app
+            res.type("application/json");
             return gson.toJson(departmentDao.getAll());//send it back to be displayed
         });
 
-        //display details of a specific department
-//        get("/departments/:id","application/json", (request, response) -> {
-//            int departmentId = Integer.parseInt(request.params("id"));
-//            return gson.toJson(departmentDao.findById(departmentId));
-//        });
-
+//        display details of a specific department
+        get("/departments/:id","application/json", (request, response) -> {
+            int departmentId = Integer.parseInt(request.params("id"));
+            return gson.toJson(departmentDao.findById(departmentId));
+        });
 
 
         get("/departments/:id", "application/json", (req, res) -> { //accept a request in format JSON from an app
@@ -100,10 +98,10 @@ public class App {
 
 
         //add a new user to a department
-        post("departments/:id/users/new","application/json", (request, response) -> {
+        post("/departments/:id/users/new","application/json", (request, response) -> {
             int departmentId = Integer.parseInt(request.params("id"));
             User newUser = gson.fromJson(request.body(), User.class);
-            newUser.setDepartment(departmentId);
+            newUser.setDepartmentId(departmentId);
             userDao.add(newUser);
             response.status(201);
             return gson.toJson(newUser);
@@ -142,7 +140,7 @@ public class App {
                 //both exist and can be associated
                 userDao.addUserToDepartment(user, department);
                 res.status(201);
-                return gson.toJson(String.format("Department '%s' and User '%s' have been associated",user.getStaffName(), department.getName()));
+                return gson.toJson(String.format("User '%s' and Department '%s' have been associated",user.getStaffName(), department.getName()));
             }
             else {
                 throw new ApiException(404, String.format("Department or User does not exist"));

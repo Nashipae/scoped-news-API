@@ -9,25 +9,25 @@ import org.sql2o.Sql2oException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Sql2OUserDao implements UserDao {
+public class Sql2oUserDao implements UserDao {
 
     private final Sql2o sql2o;
 
-    public Sql2OUserDao(Sql2o sql2o){
+    public Sql2oUserDao(Sql2o sql2o){
         this.sql2o = sql2o; //making the sql2o object available everywhere so we can call methods in it
     }
 
     @Override
     public void add(User user){
-        String sql = "INSERT INTO users (id, staffName, staffRole, staffPosition, departmentId) VALUES (:id, :staffName, :staffRole, :staffPosition, :departmentId);";
-        try(Connection conn = sql2o.open()){
-            int id = (int) conn.createQuery(sql, true)
+        String sql = "INSERT INTO users (staffName, staffRole, staffPosition, departmentId) VALUES (:staffName, :staffRole, :staffPosition, :departmentId);";
+        try(Connection con = sql2o.open()){
+            int id = (int) con.createQuery(sql, true)
                     .bind(user)
                     .executeUpdate()
                     .getKey();
             user.setId(id);
         } catch (Sql2oException ex) {
-            System.out.println(ex); //oops we have an error!
+            System.out.println(ex);
         }
     }
 
@@ -89,7 +89,7 @@ public class Sql2OUserDao implements UserDao {
     @Override
     public User findById(int id) {
         try(Connection con = sql2o.open()){
-            return con.createQuery("SELECT * FROM user WHERE id = :id")
+            return con.createQuery("SELECT * FROM users WHERE id = :id")
                     .addParameter("id", id) //key/value pair, key must match above
                     .executeAndFetchFirst(User.class); //fetch an individual item
         }
