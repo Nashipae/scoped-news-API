@@ -14,6 +14,9 @@ import models.User;
 import org.sql2o.Sql2o;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
+
+import javax.jws.soap.SOAPBinding;
+
 import static spark.Spark.*;
 
 public class App {
@@ -121,6 +124,14 @@ public class App {
             res.type("application/json");
             return gson.toJson(user);
         });
+
+//        show details of a specific user
+        get("/users/:id", "application/json", (req, res) ->{
+            int userId = Integer.parseInt(req.params("id"));
+            User userToFind = (userDao.findById(userId));
+            return gson.toJson(userDao.findById(userId));
+            });
+
 
         //show a list of all users
         get("/users", "application/json", (req, res) -> {
