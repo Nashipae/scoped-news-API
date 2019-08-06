@@ -176,6 +176,7 @@ public class App {
 
 
 
+//        Post departmental news
         post("/departments/:departmentId/news/new", "application/json", (req, res) -> {
             int departmentId = Integer.parseInt(req.params("departmentId"));
             News news = gson.fromJson(req.body(), News.class);
@@ -201,11 +202,13 @@ public class App {
             return gson.toJson(newsDao.getAllNewssByDepartment(departmentId));
         });
 
+//        Get specific news
         get("/news/:id","application/json", (request, response) -> {
             int newsId = Integer.parseInt(request.params("id"));
             return gson.toJson(newsDao.findById(newsId));
         });
 
+//        Post departmental news
         post("/departments/:id/news/new","application/json", (request, response) -> {
             int departmentId = Integer.parseInt(request.params("id"));
             String content = request.params("content");
@@ -216,33 +219,37 @@ public class App {
             return gson.toJson(newNews);
         });
 
+//        Delete all departments
         get("/departmentsdeleteall","application/json",(request, response) -> {
             if(departmentDao.getAll().size()>0){
                 departmentDao.clearAllDepartments();
                 return "{\"message\":\"All departments have been cleared.\"}";
             }else{
-                throw new ApiException(404, String.format("No departments exists"));
+                throw new ApiException(404, String.format("Sorry, there are no departments."));
             }
         });
 
+//        Delete a department
         get("/departments/:id/delete","application/json",(request, response) -> {
             if(departmentDao.findById(Integer.parseInt(request.params("id")))!=null){
                 departmentDao.deleteById(Integer.parseInt(request.params("id")));
                 return "{\"message\":\"Department has been cleared.\"}";
             }else{
-                throw new ApiException(404, String.format("No department with the id: %s exists", request.params("id")));
+                throw new ApiException(404, String.format("Sorry, no department with ID: %s exists", request.params("id")));
             }
         });
 
+//        Delete a user
         get("/users/:id/delete","application/json",(request, response) -> {
             if(userDao.findById(Integer.parseInt(request.params("id")))!=null){
                 userDao.deleteById(Integer.parseInt(request.params("id")));
                 return "{\"message\":\"Department has been cleared.\"}";
             }else{
-                throw new ApiException(404, String.format("No users with the id: %s exists", request.params("id")));
+                throw new ApiException(404, String.format("Sorry, there are no users with ID: %s", request.params("id")));
             }
         });
 
+//        Delete all users
         get("/usersdeleteall","application/json",(request, response) -> {
             if(userDao.getAll().size()>0){
                 userDao.clearAllUsers();
