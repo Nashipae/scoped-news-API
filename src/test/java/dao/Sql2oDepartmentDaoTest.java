@@ -51,16 +51,6 @@ public class Sql2oDepartmentDaoTest {
         assertEquals(0, departmentDao.getAll().size());
     }
 
-    @Test
-    public void updateChangesDepartmentName() throws Exception {
-        String initialName = "RNIO";
-        Department department = new Department (initialName);
-        departmentDao.add(department);
-
-        departmentDao.update(department.getId(),"TSAG");
-        Department updatedDepartment = departmentDao.findById(department.getId());
-        assertNotEquals(initialName, updatedDepartment.getName());
-    }
 
     @Test
     public void deleteByIdDeletesCorrectDepartment() throws Exception {
