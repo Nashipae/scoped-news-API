@@ -1,4 +1,4 @@
--- CREATE DATABASE scoped_news_api;
+CREATE DATABASE scoped_news_api;
 SET MODE PostgreSQL;
 
 CREATE TABLE IF NOT EXISTS departments (
