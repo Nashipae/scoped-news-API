@@ -28,4 +28,4 @@ dependencies {
     compile 'com.google.code.gson:gson:2.5'
 }
 defaultTasks = ['clean']
-task stage(dependsOn: ['clean', 'installDist'])
+task stage(dependsOn: ['clean', 'installApp'])
