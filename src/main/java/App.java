@@ -27,14 +27,14 @@ public class App {
         if (process.environment().get("PORT") != null) {
             port = Integer.parseInt(process.environment().get("PORT"));
         } else {
-            port = 4563;
+            port = 4567;
         }
 
         port(port);
 
         staticFileLocation("/public");
-        String connectionString = "jdbc:h2:~/scoped_news_api.db;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
-        Sql2o sql2o = new Sql2o(connectionString, "", "");
+//        String connectionString = "jdbc:h2:~/scoped_news_api.db;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
+//        Sql2o sql2o = new Sql2o(connectionString, "", "");
 
 
         Sql2oUserDao userDao;
