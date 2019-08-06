@@ -46,8 +46,7 @@ public class App {
         departmentDao = new Sql2oDepartmentDao(DB.sql2o);
         userDao = new Sql2oUserDao(DB.sql2o);
         newsDao = new Sql2oNewsDao(DB.sql2o);
-        Connection conn;
-        conn = DB.sql2o.open();
+
 
 
         //get: show all departments
