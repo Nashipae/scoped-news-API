@@ -18,7 +18,8 @@ public class DB {
                 dbUri = new URI("postgres://localhost:5432/scoped_news_api");
                 logger.info("Using local database.");
             } else {
-                dbUri = new URI(System.getenv("DATABASE_URL"));
+                dbUri = new URI(System.getenv("postgres://ozprfyupzsnftd:bef2e8c3bf123dfc309b21c33cca95397f9620e1b776701fd0041826a688a7da@ec2-107-20-198-176.compute-1.amazonaws.com:5432/d9rc9\n" +
+                        "i5fkk9s7f"));
             }
 
             int port = dbUri.getPort();
