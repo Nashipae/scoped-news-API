@@ -30,7 +30,7 @@ public class App {
             port = 4563;
         }
 
-        setPort(port);
+        port(port);
 
         staticFileLocation("/public");
         String connectionString = "jdbc:h2:~/scoped_news_api.db;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
