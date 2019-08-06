@@ -10,10 +10,29 @@ The API enables a user to access news from within his department or in the organ
 ## Postman Usage
 ###Post  methods
 * Adding a new department - "/departments/new"
-* Adding a new user - "/users/new"
+
+{
+"name": "RNIO",    
+"employeeCount": 0,     
+"description": "Some description"
+}
+* Adding a new user - "/users/new"  
+{
+"staffName": "Mteja",    
+"staffPosition": 0,     
+"departmentId": 1
+}
 * Adding a new user to a department - "/departments/:id/users/new"
-* Post departmental news - "/departments/:departmentId/news/new"
-* Post general news - "/generalnews/new"
+* Post departmental news - "/departments/:departmentId/news/new"    
+{
+"content": "What's up!",    
+"departmentId": 1,     
+}
+* Post general news - "/generalnews/new"    
+{
+"content": "What's up!",       
+}
+
 
 
 ### Get methods
