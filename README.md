@@ -2,7 +2,7 @@
 #### Scoped News API is an application package that enables creation of departments and staff within an organization.
 #### By **Naomi Wariara**
 ## Description
-The API enables a user to access news from within his department or in the organization in general. It gives info about users and profiles them within the organization. 
+The API enables a user to access news from within his department or in the organization in general. It gives info about users and profiles them within the organization. It allows for creation of general news and news that are for a specific department, hence the name 'scoped-news-api''.' 
 ## Setup/Installation Requirements
 * To access the API use the link: https://scoped-news-api.herokuapp.com/
 * For it to work, the user should download and install Postman and use the GET and POST methods to test the routes.
