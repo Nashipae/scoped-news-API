@@ -8,7 +8,7 @@ The API enables a user to access news from within his department or in the organ
 * For it to work, the user should download and install Postman and use the GET and POST methods to test the routes.
 
 ## Postman Usage
-###Post  methods
+##Post  methods - (Use with Postman)
 * Adding a new department - "/departments/new"
 
 {
@@ -35,7 +35,7 @@ The API enables a user to access news from within his department or in the organ
 
 
 
-### Get methods
+### Get methods - (Can be used on the app link by replacing :id with a digit)
 * Get all departments: "/departments"
 * Get single department: "/departments/:id"
 * Get all users in a department: "/departments/:id/users"
